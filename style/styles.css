@@ -1,0 +1,36 @@
+#main {
+	display: flex;
+	flex-direction: row;
+}
+#exchange-list {
+	display: flex;
+	height: 300px;
+	margin: 20px;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+#scales-wrapper {
+	display: flex;
+	flex-direction: column;
+}
+.trade-range {
+	width: fit-content;
+	height: fit-content;
+	margin: 5px;
+
+	border-radius: 5px;
+}
+.trade-range:hover {
+	cursor: pointer;
+}
+.list-item-wrapper {
+	display: flex;
+	flex-direction: row;
+}
+#name-list,
+#volume-list,
+#country-list {
+	box-sizing: border-box;
+	margin-right: 60px;
+}
