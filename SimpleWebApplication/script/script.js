@@ -169,3 +169,74 @@ document.getElementsByClassName('trade-range')[2].addEventListener('click', () =
 			createList(newdata);
 		});
 });
+let convertField = document.createElement('input');
+convertField.setAttribute('id', 'input');
+let outputField = document.createElement('output');
+outputField.setAttribute('id', 'conversion-output');
+outputField.textContent = 'result';
+let chooseCurrency = document.createElement('button');
+chooseCurrency.setAttribute('id', 'currency');
+chooseCurrency.innerText = 'BTC convert to ';
+chooseCurrency.addEventListener('click', checkFetch);
+document.getElementById('crypto-converter').appendChild(convertField);
+document.getElementById('crypto-converter').appendChild(chooseCurrency);
+document.getElementById('crypto-converter').appendChild(outputField);
+
+function getCurrentRates() {
+	fetch('https://api.coingecko.com/api/v3/exchange_rates').then((resp) => resp.json()).then((rateResult) => {
+		let rateArr = [];
+		rateArr = Object.entries(rateResult.rates).map((el) => el[1]);
+
+		// console.log(rateArr);
+		let currencyList = document.createElement('div');
+		rateArr.forEach((el) => {
+			let listItem = document.createElement('div');
+			listItem.className = 'currency';
+			listItem.innerText = el.name;
+			listItem.addEventListener('click', () => {
+				let selectedCurrency = event.target.innerText;
+				// console.log(selectedCurrency);
+				let textField = document.getElementById('currency').innerText.split(' ');
+				if (textField.length > 3) {
+					textField.length = 3;
+				}
+				document.getElementById('currency').innerText = textField.join(' ');
+				document.getElementById('currency').innerText += ' ' + selectedCurrency;
+			});
+			currencyList.appendChild(listItem);
+		});
+		document.getElementById('crypto-converter').appendChild(currencyList);
+
+		// makeConversion();
+	});
+}
+function makeConversion() {
+	let currentCurrency = document.getElementById('currency');
+	if (currentCurrency.innerText.split(' ').length === 3) {
+		document.getElementById('conversion-output').innerText = 'no currency chosen';
+	} else {
+		let choosenCurrency = currentCurrency.innerText.split(' ').filter((el, index) => index > 2);
+		fetch('https://api.coingecko.com/api/v3/exchange_rates').then((resp) => resp.json()).then((rateResult) => {
+			let rateArr = [];
+			rateArr = Object.entries(rateResult.rates).map((el) => el[1]);
+			// console.log(rateArr);
+			let exchangeRate = rateArr.filter((el) => el.name === choosenCurrency.join(' '))[0].value;
+			// console.log(exchangeRate[0].value);
+			let amountToConvert = +document.getElementById('input').value;
+			// console.log(amountToConvert);
+			if (!!amountToConvert === true && amountToConvert > 0) {
+				let result = Math.floor(amountToConvert * exchangeRate, 0);
+				document.getElementById('conversion-output').innerText = result;
+			}
+			// console.log(choosenCurrency.join(' '));
+		});
+	}
+}
+function checkFetch() {
+	let currentCurrency = document.getElementById('currency');
+	if (currentCurrency.innerText.split(' ').length === 3) {
+		getCurrentRates();
+	} else {
+		makeConversion();
+	}
+}
