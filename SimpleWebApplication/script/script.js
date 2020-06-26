@@ -171,6 +171,10 @@ document.getElementsByClassName('trade-range')[2].addEventListener('click', () =
 });
 let convertField = document.createElement('input');
 convertField.setAttribute('id', 'input');
+convertField.placeholder='enter BTC amount';
+convertField.addEventListener('click',()=>{
+	convertField.placeholder='';
+})
 let outputField = document.createElement('output');
 outputField.setAttribute('id', 'conversion-output');
 outputField.textContent = 'result';
@@ -247,3 +251,60 @@ function checkFetch() {
 		makeConversion();
 	}
 }
+(function makeTooltip(){
+let toolTip=document.createElement('div');
+toolTip.setAttribute('id','tool-tip');
+toolTip.style.display='';
+	
+	for (let i=0.1; i<=10;){
+		if(i<1){
+			 let tipItem=document.createElement('div');
+			tipItem.innerHTML= +i.toFixed(1);
+			tipItem.className='tip-item';
+			toolTip.addEventListener('click',()=>{
+				let value=+event.target.innerHTML;
+				document.getElementById('input').innerHTML=value;
+			})
+			toolTip.appendChild(tipItem);
+			i=+i.toFixed(1)+0.1;
+		}
+		else { let tipItem=document.createElement('div');
+		tipItem.innerHTML=+i.toFixed(1);
+		tipItem.className='tip-item'
+		toolTip.addEventListener('click',()=>{
+			let value=+event.target.innerHTML;
+			document.getElementById('input').value=value;
+		})
+		toolTip.appendChild(tipItem);
+		i=+i.toFixed(1)+1;
+			
+		}
+	}
+
+	document.getElementById('crypto-converter').appendChild(toolTip);
+})();
+document.getElementById('input').addEventListener('mouseenter',()=>{
+	document.getElementById('tool-tip').style.display='block';
+})
+document.getElementById('input').addEventListener('mouseleave',()=>{
+setTimeout(()=>{document.getElementById('tool-tip').style.display='';},2000)	
+})
+// document.body.addEventListener("click", ()=>{
+// 	if (event.target!==document.getElementById('tool-tip')){
+// 		if (document.getElementById('input').value){
+// 			document.getElementById('input').value=null;
+			
+// 			document.getElementById('input').placeholder='enter BTC amount';
+// 		}
+		
+// 	}
+// })
+
+// inputField.addEventListener("mouseenter",()=>{}
+// )
+document.getElementById('currency').addEventListener('mouseover',()=>{
+	document.getElementById('dropdown').style.display='block';
+})
+document.getElementById('currency').addEventListener('mouseleave',()=>{
+	document.getElementById('dropdown').style.display='';
+})

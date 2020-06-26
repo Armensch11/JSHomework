@@ -43,4 +43,15 @@
 #dropdown {
 	max-height: 200px;
 	overflow: scroll;
+	display: none;
+}
+#tool-tip{
+display: flex;
+	flex-direction: column;
+	display: none;
+	
+}
+.tip-item{
+	margin: 5px;
+	cursor: pointer;
 }
