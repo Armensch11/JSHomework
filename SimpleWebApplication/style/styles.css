@@ -5,6 +5,7 @@
 #exchange-list {
 	display: flex;
 	height: 300px;
+	overflow: scroll;
 	margin: 20px;
 	flex-direction: row;
 	justify-content: space-between;
@@ -33,4 +34,13 @@
 #country-list {
 	box-sizing: border-box;
 	margin-right: 60px;
+}
+
+.currName {
+	cursor: pointer;
+	margin: 5px;
+}
+#dropdown {
+	max-height: 200px;
+	overflow: scroll;
 }

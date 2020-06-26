@@ -176,7 +176,11 @@ outputField.setAttribute('id', 'conversion-output');
 outputField.textContent = 'result';
 let chooseCurrency = document.createElement('button');
 chooseCurrency.setAttribute('id', 'currency');
-chooseCurrency.innerText = 'BTC convert to ';
+
+let convertText = document.createElement('div');
+convertText.innerText = 'BTC convert to';
+convertText.setAttribute('id', 'conversion-text');
+chooseCurrency.appendChild(convertText);
 chooseCurrency.addEventListener('click', checkFetch);
 document.getElementById('crypto-converter').appendChild(convertField);
 document.getElementById('crypto-converter').appendChild(chooseCurrency);
@@ -189,29 +193,32 @@ function getCurrentRates() {
 
 		// console.log(rateArr);
 		let currencyList = document.createElement('div');
+		currencyList.setAttribute('id', 'dropdown');
 		rateArr.forEach((el) => {
 			let listItem = document.createElement('div');
-			listItem.className = 'currency';
+			listItem.className = 'currName';
 			listItem.innerText = el.name;
 			listItem.addEventListener('click', () => {
 				let selectedCurrency = event.target.innerText;
-				// console.log(selectedCurrency);
-				let textField = document.getElementById('currency').innerText.split(' ');
+				console.log(selectedCurrency);
+				let textField = document.getElementById('conversion-text').innerText.split(' ');
 				if (textField.length > 3) {
 					textField.length = 3;
 				}
-				document.getElementById('currency').innerText = textField.join(' ');
-				document.getElementById('currency').innerText += ' ' + selectedCurrency;
+				console.log(textField);
+
+				document.getElementById('conversion-text').innerText = textField.join(' ') + ' ' + selectedCurrency;
+				// document.getElementById('currency').innerText = ;
 			});
 			currencyList.appendChild(listItem);
 		});
-		document.getElementById('crypto-converter').appendChild(currencyList);
+		document.getElementById('currency').appendChild(currencyList);
 
 		// makeConversion();
 	});
 }
 function makeConversion() {
-	let currentCurrency = document.getElementById('currency');
+	let currentCurrency = document.getElementById('conversion-text');
 	if (currentCurrency.innerText.split(' ').length === 3) {
 		document.getElementById('conversion-output').innerText = 'no currency chosen';
 	} else {
